@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday JoJo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow: hidden;
+            background: #000;
+            height: 100vh;
+            width: 100vw;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        /* صفحة العد التنازلي */
+        
+        #countdown-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            background: black;
+        }
+        
+        #click-message {
+            color: #ff3b3b;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ff0000, #cc0000, #ff4d4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px #ff0000) drop-shadow(0 0 10px #cc0000) drop-shadow(0 0 15px #ff4d4d);
+            animation: glowPulse 2s infinite alternate;
+            user-select: none;
+            cursor: default;
+        }
+        
+        @keyframes glowPulse {
+            0% {
+                filter: drop-shadow(0 0 3px #ff0000) drop-shadow(0 0 6px #cc0000) drop-shadow(0 0 9px #ff4d4d);
+            }
+            100% {
+                filter: drop-shadow(0 0 10px #ff0000) drop-shadow(0 0 20px #cc0000) drop-shadow(0 0 30px #ff4d4d);
+            }
+        }
+        
+        .sharingan-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #990000, #000000);
+            animation: spin 6s linear infinite;
+            box-shadow: 0 0 50px red;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .sharingan-container.glow {
+            box-shadow: 0 0 100px 30px crimson;
+        }
+        
+        .sharingan-symbol,
+        .sharingan-symbol2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            opacity: 0.8;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        .sharingan-symbol {
+            background-image: url('./asset/eye1.png');
+            animation: spin-reverse 8s linear infinite;
+        }
+        
+        .sharingan-symbol2 {
+            background-image: url('./asset/eye2.png');
+            animation: spin-fast 12s linear infinite;
+            opacity: 0.4;
+        }
+        
+        .countdown {
+            color: white;
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px red;
+            z-index: 1;
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes spin-reverse {
+            from {
+                transform: rotate(360deg);
+            }
+            to {
+                transform: rotate(0deg);
+            }
+        }
+        
+        @keyframes spin-fast {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(720deg);
+            }
+        }
+        /* صفحة المشهد المتسلسل */
+        
+        #animation-page {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: black;
+            overflow: hidden;
+        }
+        
+        #clickMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.8em;
+            font-weight: bold;
+            z-index: 10;
+            opacity: 1;
+            user-select: none;
+            background: linear-gradient(90deg, #a10d0d, #000000, #777777, #a10d0d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px #a10d0d, 0 0 20px #650000, 0 0 30px #a10d0d, 0 0 50px #3a0000;
+            animation: fadeInOut 4s forwards;
+            font-family: 'Arial Black', sans-serif;
+            letter-spacing: 2px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            pointer-events: none;
+            text-align: center;
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.8);
+                filter: blur(5px);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+                filter: blur(0);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -40%) scale(0.8);
+                filter: blur(5px);
+            }
+        }
+        
+        .character {
+            position: absolute;
+            bottom: 0;
+            opacity: 0;
+            filter: blur(12px) brightness(0.2);
+            z-index: 8;
+            transition: opacity 0.5s ease;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .itachi {
+            left: 50%;
+            width: 300px;
+            max-width: 40%;
+            transform: translateX(-50%) scale(0.5);
+        }
+        
+        .itachi.active {
+            animation: itachiZoomIn 2.5s ease-out forwards, flicker 1.2s linear;
+        }
+        
+        @keyframes itachiZoomIn {
+            0% {
+                transform: translateX(-50%) scale(0.5);
+                filter: blur(12px) brightness(0.2);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(-50%) scale(1.2);
+                filter: blur(0) brightness(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes flicker {
+            0%,
+            100% {
+                opacity: 0;
+            }
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                opacity: 1;
+            }
+            20%,
+            40%,
+            60%,
+            80% {
+                opacity: 0;
+            }
+        }
+        
+        .sharingan-eye {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            width: 180px;
+            max-width: 25%;
+            transform: translateX(-50%) scale(1);
+            opacity: 0;
+            z-index: 9;
+        }
+        
+        .sharingan-eye.active {
+            animation: rotateSharingan 4s linear infinite, sharinganFlash 2s ease-out forwards;
+        }
+        
+        @keyframes rotateSharingan {
+            0% {
+                transform: translateX(-50%) rotate(0deg) scale(1);
+            }
+            100% {
+                transform: translateX(-50%) rotate(360deg) scale(1);
+            }
+        }
+        
+        @keyframes sharinganFlash {
+            0% {
+                opacity: 0;
+                filter: drop-shadow(0 0 0px red);
+            }
+            50% {
+                opacity: 1;
+                filter: drop-shadow(0 0 40px red);
+            }
+            100% {
+                opacity: 1;
+                filter: drop-shadow(0 0 20px red);
+            }
+        }
+        
+        #fog {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+            mix-blend-mode: screen;
+            opacity: 0;
+            transition: opacity 2s;
+            z-index: 7;
+        }
+        
+        #fog.active {
+            opacity: 0.15;
+            animation: fogAnim 5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes fogAnim {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 100px 100px;
+            }
+        }
+        
+        video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 6;
+            pointer-events: none;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+        }
+        
+        video.active {
+            opacity: 1;
+        }
+        
+        .fade-blur-out {
+            animation: fadeBlurOut 2s ease forwards;
+        }
+        
+        @keyframes fadeBlurOut {
+            0% {
+                opacity: 1;
+                filter: blur(0px) brightness(1);
+                transform: scale(1);
+            }
+            50% {
+                filter: blur(5px) brightness(1.3);
+                transform: scale(1.08);
+                opacity: 0.7;
+            }
+            100% {
+                filter: blur(20px) brightness(2.5);
+                transform: scale(1.25);
+                opacity: 0;
+            }
+        }
+        
+        .glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.5), transparent 70%);
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+            animation: glowPulse 3s infinite ease-in-out;
+            max-width: 90%;
+        }
+        
+        .glow.active {
+            opacity: 1;
+        }
+        
+        @keyframes glowPulse {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.4);
+                opacity: 0.6;
+            }
+        }
+        
+        .killua {
+            right: 5%;
+            width: 280px;
+            max-width: 35%;
+            transform: scale(0.5);
+        }
+        
+        .killua.active {
+            animation: killuaEnter 2.2s ease-out forwards, killuaFlash 1.5s linear;
+        }
+        
+        @keyframes killuaEnter {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+                filter: brightness(0.2) blur(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.25);
+                filter: brightness(1) blur(0);
+            }
+        }
+        
+        @keyframes killuaFlash {
+            0%,
+            100% {
+                filter: drop-shadow(0 0 8px cyan);
+            }
+            50% {
+                filter: drop-shadow(0 0 40px cyan);
+            }
+        }
+        
+        .thunder-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            opacity: 0;
+            z-index: 20;
+            pointer-events: none;
+        }
+        
+        .thunder-flash.active {
+            animation: thunderFlash 0.3s ease-in-out;
+        }
+        
+        @keyframes thunderFlash {
+            0% {
+                opacity: 0;
+            }
+            30% {
+                opacity: 0.95;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9;
+        }
+        
+        #son {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            max-width: 25%;
+            opacity: 0;
+            filter: drop-shadow(0 0 15px cyan);
+            z-index: 15;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+        
+        #son.fade-out {
+            animation: sonFadeOut 2.5s forwards;
+        }
+        
+        @keyframes sonFadeOut {
+            0% {
+                opacity: 1;
+                filter: drop-shadow(0 0 15px cyan);
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                filter: drop-shadow(0 0 0px cyan);
+                transform: translateX(-50%) translateY(-150px) scale(0.4);
+            }
+        }
+        
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: cyan;
+            opacity: 1;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 16;
+            animation: particleFly 1.8s forwards;
+        }
+        
+        @keyframes particleFly {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x), var(--y)) scale(0);
+            }
+        }
+        /* إضافة أنماط لغوجو */
+        
+        .gojo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            opacity: 0;
+            width: 300px;
+            max-width: 40%;
+            filter: blur(10px) brightness(0.3);
+            z-index: 15;
+            transition: opacity 1s ease, transform 1.5s ease;
+        }
+        
+        .gojo.active {
+            animation: gojoAppear 2s forwards, gojoGlow 3s infinite;
+        }
+        
+        @keyframes gojoAppear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+                filter: blur(15px) brightness(0.2);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+                filter: blur(0) brightness(1);
+            }
+        }
+        
+        @keyframes gojoGlow {
+            0%,
+            100% {
+                filter: drop-shadow(0 0 10px #7f5af0);
+            }
+            50% {
+                filter: drop-shadow(0 0 40px #7f5af0);
+            }
+        }
+        
+        .gojo-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            opacity: 0;
+            z-index: 20;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(127, 90, 240, 0.7);
+        }
+        
+        .gojo-video.active {
+            opacity: 1;
+            animation: videoGlow 3s infinite;
+        }
+        
+        @keyframes videoGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 50px rgba(127, 90, 240, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 80px rgba(127, 90, 240, 1);
+            }
+        }
+        /* المرحلة النهائية */
+        
+        #finalPhaseVideo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            max-width: 95%;
+            max-height: 95%;
+            opacity: 0;
+            z-index: 30;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+        }
+        
+        #finalPhaseVideo.active {
+            opacity: 1;
+        }
+        
+        #finalImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 40;
+            transition: opacity 2s ease;
+            background-color: #000;
+            /* استخدمنا الخلفية بدلاً من img لضبط الصورة بشكل أفضل */
+            background-image: url('./asset/Picsart_25-07-20_18-03-13-615.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        #finalImage.active {
+            opacity: 1;
+        }
+        
+        #finalSong {
+            display: none;
+        }
+        
+        #credits {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 1.5em;
+            opacity: 0;
+            z-index: 50;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+            transition: opacity 2s ease;
+            font-family: 'Arial', sans-serif;
+            padding: 10px;
+        }
+        
+        .final-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent 70%);
+            opacity: 0;
+            z-index: 35;
+            pointer-events: none;
+            animation: finalGlowPulse 4s infinite ease-in-out;
+        }
+        
+        .final-glow.active {
+            opacity: 0.7;
+        }
+        
+        @keyframes finalGlowPulse {
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.9;
+            }
+        }
+        /* تأثير الفقاعات */
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            z-index: 45;
+            animation: bubbleRise linear forwards;
+        }
+        
+        @keyframes bubbleRise {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.2);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(var(--x-offset)) scale(1);
+                opacity: 0;
+            }
+        }
+        /* استجابة للجوالات */
+        
+        @media (max-width: 768px) {
+            #clickMessage {
+                font-size: 1.8em;
+                padding: 15px;
+                width: 90%;
+            }
+            .character {
+                max-width: 70%;
+            }
+            .itachi,
+            .killua {
+                width: 200px;
+            }
+            .sharingan-eye {
+                width: 120px;
+                top: 15%;
+            }
+            .gojo {
+                width: 200px;
+            }
+            #son {
+                width: 120px;
+                bottom: 10%;
+            }
+            #credits {
+                font-size: 1em;
+                bottom: 10px;
+            }
+            .glow {
+                width: 300px;
+                height: 300px;
+            }
+            video,
+            .gojo-video,
+            #finalPhaseVideo {
+                max-width: 95%;
+                max-height: 95%;
+            }
+            .sharingan-container {
+                width: 200px;
+                height: 200px;
+            }
+            .countdown {
+                font-size: 3rem;
+            }
+            #click-message {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #clickMessage {
+                font-size: 1.3em;
+                padding: 10px;
+            }
+            .itachi,
+            .killua {
+                width: 150px;
+            }
+            .sharingan-eye {
+                width: 80px;
+                top: 10%;
+            }
+            .gojo {
+                width: 150px;
+            }
+            #son {
+                width: 100px;
+                bottom: 8%;
+            }
+            #credits {
+                font-size: 0.8em;
+            }
+            .sharingan-container {
+                width: 150px;
+                height: 150px;
+            }
+            .countdown {
+                font-size: 2rem;
+            }
+            #click-message {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            #finalImage {
+                background-size: contain;
+                background-position: center;
+                background-color: #000;
+            }
+            #credits {
+                font-size: 0.7em;
+                bottom: 5px;
+            }
+        }
+        
+        @media (orientation: landscape) and (max-height: 500px) {
+            #finalImage {
+                background-size: contain;
+                background-position: center;
+                background-color: #000;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- صفحة العد التنازلي -->
+    <div id="countdown-page">
+        <div id="click-message">Click on the eye!</div>
+        <div class="sharingan-container" id="sharingan" title="اضغط على العين لتشغيل الموسيقى والبدء">
+            <div class="sharingan-symbol"></div>
+            <div class="sharingan-symbol2" id="symbol2"></div>
+            <div class="countdown" id="countdown">60</div>
+        </div>
+        <audio id="countdown-audio" src="song.mp3"></audio>
+    </div>
+
+    <!-- صفحة المشهد المتسلسل -->
+    <div id="animation-page">
+        <div id="container">
+            <div id="clickMessage">Click anywhere to start</div>
+            <img src="./asset/Picsart_25-07-18_04-34-12-248.png" alt="Itachi" class="character itachi" id="itachiImg" />
+            <img src="./asset/sharingan-removebg-preview.png" alt="Sharingan" class="sharingan-eye" id="sharinganImg" />
+            <div id="fog"></div>
+            <div class="glow" id="glowEffect"></div>
+            <video id="itachiVideo">
+                <source src="/asset/XiaoYing_Video_1752890637603_HD.mp4" type="video/mp4">
+            </video>
+            <audio id="itachiVoice"></audio>
+
+            <!-- Killua Elements -->
+            <img src="./asset/Picsart_25-07-18_04-57-38-689.png" alt="Killua" class="character killua" id="killuaImg" />
+            <div class="thunder-flash" id="thunderFlash"></div>
+            <video id="killuaVideo">
+                <source src="./asset/XiaoYing_Video_1752957562174_HD.mp4" type="video/mp4">
+            </video>
+            <audio id="killuaSound"></audio>
+            <audio id="thunderSound"></audio>
+
+            <!-- Sparks Canvas -->
+            <canvas id="canvas"></canvas>
+
+            <!-- Son Elements -->
+            <img src="./asset/jinwoopng.png" alt="Son" id="son" />
+            <video id="finalVideo">
+                <source src="./asset/jinwoo.mp4" type="video/mp4">
+            </video>
+            <audio id="finalAudio"></audio>
+
+            <!-- Gojo Elements -->
+            <img src="./asset/Picsart_25-07-18_04-36-07-129.png" alt="Gojo" id="gojoImg" class="gojo" />
+            <video id="gojoVideo" class="gojo-video">
+                <source src="./asset/XiaoYing_Video_1752972205146_HD.mp4" type="video/mp4">
+            </video>
+            <audio id="gojoSound"></audio>
+
+            <!-- Final Phase Elements -->
+            <video id="finalPhaseVideo">
+                <source src="./asset/Mango AI Work_20250719-020711.mp4" type="video/mp4">
+            </video>
+            <!-- تم تغيير الصورة إلى خلفية في div -->
+            <div id="finalImage"></div>
+            <audio id="finalSong"></audio>
+            <div class="final-glow" id="finalGlow"></div>
+
+            <div id="credits">be prepared for the biggest one❤️</div>
+        </div>
+    </div>
+
+    <script>
+        // عناصر العد التنازلي
+        const countdownPage = document.getElementById("countdown-page");
+        const sharinganEl = document.getElementById("sharingan");
+        const symbol1 = document.querySelector(".sharingan-symbol");
+        const symbol2 = document.getElementById("symbol2");
+        const countdownEl = document.getElementById("countdown");
+        const countdownAudio = document.getElementById("countdown-audio");
+        const clickMessage = document.getElementById("click-message");
+
+        // عناصر المشهد المتسلسل
+        const animationPage = document.getElementById("animation-page");
+        const container = document.getElementById("container");
+        const clickMsg = document.getElementById("clickMessage");
+        const itachiImg = document.getElementById("itachiImg");
+        const sharinganImg = document.getElementById("sharinganImg");
+        const fog = document.getElementById("fog");
+        const video = document.getElementById("itachiVideo");
+        const audio = document.getElementById("itachiVoice");
+        const glow = document.getElementById("glowEffect");
+        const killuaImg = document.getElementById("killuaImg");
+        const killuaVideo = document.getElementById("killuaVideo");
+        const killuaSound = document.getElementById("killuaSound");
+        const thunderSound = document.getElementById("thunderSound");
+        const thunderFlash = document.getElementById("thunderFlash");
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const son = document.getElementById("son");
+        const finalVideo = document.getElementById("finalVideo");
+        const finalAudio = document.getElementById("finalAudio");
+        const credits = document.getElementById("credits");
+        const gojoImg = document.getElementById("gojoImg");
+        const gojoVideo = document.getElementById("gojoVideo");
+        const gojoSound = document.getElementById("gojoSound");
+        const finalPhaseVideo = document.getElementById("finalPhaseVideo");
+        const finalImage = document.getElementById("finalImage");
+        const finalSong = document.getElementById("finalSong");
+        const finalGlow = document.getElementById("finalGlow");
+
+        // متغيرات عامة
+        let activated = false;
+        let sparks = [];
+        let animationFrameId;
+        let bubblesInterval;
+        let countdownStarted = false;
+        let time = 60;
+
+        // بدء العد التنازلي عند النقر على العين
+        sharinganEl.addEventListener("click", () => {
+            if (!countdownStarted) {
+                countdownStarted = true;
+                try {
+                    countdownAudio.play();
+                } catch (error) {
+                    console.error("Error playing countdown audio:", error);
+                }
+                clickMessage.style.display = "none";
+
+                const interval = setInterval(() => {
+                    time--;
+                    countdownEl.textContent = time;
+
+                    // تغيير التوهج حسب الوقت المتبقي
+                    if (time > 10) {
+                        const elapsed = 60 - time;
+                        const cycleTime = elapsed % 10;
+
+                        if (cycleTime < 5) {
+                            symbol1.style.opacity = "0.8";
+                            symbol2.style.opacity = "0";
+                        } else {
+                            symbol1.style.opacity = "0";
+                            symbol2.style.opacity = "0.8";
+                        }
+
+                        sharinganEl.style.boxShadow = "0 0 50px red";
+                        sharinganEl.classList.remove("glow");
+                    } else {
+                        symbol1.style.opacity = "0.8";
+                        symbol2.style.opacity = "0.4";
+
+                        const glowSize = 50 + (10 - time) * 6;
+                        const spread = 20 + (10 - time) * 2;
+                        sharinganEl.style.boxShadow = `0 0 ${glowSize}px ${spread}px crimson`;
+                        sharinganEl.classList.add("glow");
+
+                        if (time <= 5 && time > 0) {
+                            symbol2.style.animationDuration = "4s";
+                        } else {
+                            symbol2.style.animationDuration = "12s";
+                        }
+                    }
+
+                    // عند انتهاء العد التنازلي
+                    if (time <= 0) {
+                        clearInterval(interval);
+                        countdownEl.textContent = "next step";
+                        sharinganEl.classList.remove("glow");
+                        sharinganEl.style.boxShadow = "0 0 50px red";
+                        symbol1.style.opacity = "0.8";
+                        symbol2.style.opacity = "0.4";
+
+                        countdownAudio.pause();
+                        countdownAudio.currentTime = 0;
+
+                        // الانتقال إلى المشهد المتسلسل
+                        setTimeout(() => {
+                            countdownPage.style.display = "none";
+                            animationPage.style.display = "block";
+                        }, 1500);
+                    }
+                }, 1000);
+            }
+        });
+
+        // تحديث حجم الكانفاس
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
+        // فئة الشرارة
+        class Spark {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 3;
+                this.speedY = (Math.random() - 1.5) * 3;
+                this.opacity = 1;
+                this.life = 0;
+                this.maxLife = 70 + Math.random() * 40;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life++;
+                this.opacity = 1 - this.life / this.maxLife;
+            }
+
+            draw(ctx) {
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(0, 255, 255, ${this.opacity})`;
+                ctx.shadowColor = "cyan";
+                ctx.shadowBlur = 15;
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createSpark() {
+            const baseX = window.innerWidth * 0.9;
+            const baseY = window.innerHeight * 0.85;
+            for (let i = 0; i < 7; i++) {
+                sparks.push(new Spark(baseX + (Math.random() * 60 - 30), baseY + (Math.random() * 40 - 20)));
+            }
+        }
+
+        function animateSparks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            sparks.forEach((spark, index) => {
+                spark.update();
+                if (spark.opacity <= 0) {
+                    sparks.splice(index, 1);
+                } else {
+                    spark.draw(ctx);
+                }
+            });
+            createSpark();
+            animationFrameId = requestAnimationFrame(animateSparks);
+        }
+
+        function initSparks() {
+            if (!animationFrameId) {
+                animateSparks();
+            }
+        }
+
+        function stopSparks() {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+            sparks = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // بدء التفاعل في المشهد المتسلسل
+        container.addEventListener("click", startAnimation);
+
+        async function startAnimation() {
+            if (activated) return;
+            activated = true;
+            clickMsg.style.display = "none";
+
+            // Play Itachi audio
+            audio.src = "./asset/Itachi saying mangekyou sharingan.mp3";
+            audio.volume = 0.7;
+            try {
+                await audio.play();
+            } catch (error) {
+                console.error("Error playing Itachi audio:", error);
+            }
+
+            itachiImg.classList.add("active");
+            sharinganImg.classList.add("active");
+            fog.classList.add("active");
+            glow.classList.add("active");
+
+            // خلي الصور تتلاشى قبل الفيديو
+            setTimeout(() => {
+                itachiImg.classList.add("fade-blur-out");
+                sharinganImg.classList.add("fade-blur-out");
+                glow.classList.remove("active");
+            }, 4500);
+
+            setTimeout(() => {
+                itachiImg.style.display = "none";
+                sharinganImg.style.display = "none";
+
+                // Play Itachi video
+                video.src = "./asset/XiaoYing_Video_1752890637603_HD.mp4";
+                video.classList.add("active");
+                video.play().catch(err => console.error(err));
+
+                // إضافة حدث مرة واحدة فقط عند الانتهاء
+                video.onended = function() {
+                    this.onended = null;
+                    handleItachiVideoEnded();
+                };
+            }, 6700);
+        }
+
+        // معالجة انتهاء فيديو إيتاشي
+        function handleItachiVideoEnded() {
+            video.classList.remove("active");
+            video.pause();
+
+            thunderFlash.classList.add("active");
+
+            // Play thunder sound
+            thunderSound.src = "./asset/Thunder sounds, Strom sound with full heavy rain mind music.mp3";
+            thunderSound.volume = 0.6;
+            thunderSound.play().catch(err => console.error(err));
+
+            setTimeout(() => {
+                thunderFlash.classList.remove("active");
+            }, 300);
+
+            killuaImg.classList.add("active");
+
+            // Play Killua sound
+            killuaSound.src = "./asset/Killua Godspeed Transformation 4K - Hunter x Hunter 119.mp3";
+            killuaSound.volume = 0.8;
+            killuaSound.play().catch(err => console.error(err));
+
+            initSparks();
+
+            setTimeout(() => {
+                killuaImg.classList.add("fade-blur-out");
+                stopSparks();
+
+                setTimeout(() => {
+                    killuaImg.style.display = "none";
+
+                    // Play Killua video
+                    killuaVideo.src = "./asset/XiaoYing_Video_1752957562174_HD.mp4";
+                    killuaVideo.classList.add("active");
+                    killuaVideo.play().catch(err => console.error(err));
+
+                    // إضافة حدث مرة واحدة فقط عند الانتهاء
+                    killuaVideo.onended = function() {
+                        this.onended = null;
+                        killuaVideo.classList.remove("active");
+                        killuaVideo.pause();
+                        showSon();
+                    };
+                }, 2000);
+            }, 3500);
+        }
+
+        // إظهار سون
+        function showSon() {
+            son.style.opacity = "1";
+
+            // Play final audio
+            finalAudio.src = "./asset/back ground.mp3";
+            finalAudio.volume = 0.8;
+            finalAudio.play().catch(err => console.error(err));
+
+            setTimeout(() => {
+                disperseSon();
+            }, 3500);
+        }
+
+        // تشتيت سون
+        function disperseSon() {
+            son.classList.add("fade-out");
+            const rect = son.getBoundingClientRect();
+            const baseX = rect.left + rect.width / 2;
+            const baseY = rect.top + rect.height / 2;
+
+            const particlesCount = 40;
+            for (let i = 0; i < particlesCount; i++) {
+                createParticle(baseX, baseY);
+            }
+
+            setTimeout(() => {
+                son.style.opacity = "0";
+                son.classList.remove("fade-out");
+                startFinalVideo();
+            }, 2500);
+        }
+
+        // إنشاء جزيئات للتشتيت
+        function createParticle(x, y) {
+            const particle = document.createElement("div");
+            particle.classList.add("particle");
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+
+            const angle = Math.random() * 2 * Math.PI;
+            const distance = 120 + Math.random() * 80;
+            const translateX = Math.cos(angle) * distance + "px";
+            const translateY = Math.sin(angle) * distance + "px";
+
+            particle.style.setProperty("--x", translateX);
+            particle.style.setProperty("--y", translateY);
+
+            document.body.appendChild(particle);
+
+            particle.addEventListener("animationend", () => {
+                particle.remove();
+            });
+        }
+
+        // بدء الفيديو النهائي لسون
+        function startFinalVideo() {
+            finalVideo.src = "./asset/jinwoo.mp4";
+            finalVideo.classList.add("active");
+            finalVideo.play().catch(err => console.error(err));
+
+            // إضافة حدث مرة واحدة فقط عند الانتهاء
+            finalVideo.onended = function() {
+                this.onended = null;
+                finalVideo.classList.remove("active");
+                finalVideo.pause();
+                showGojo();
+            };
+
+            // Show credits
+            setTimeout(() => {
+                credits.style.opacity = "1";
+            }, 2000);
+        }
+
+        // إظهار غوجو بعد سون
+        function showGojo() {
+            // تشغيل صوت غوجو
+            gojoSound.src = "./asset/Sound Re-Design Domain Expansion Infinite Void - Jujutsu Kaisen S2.mp3";
+            gojoSound.volume = 0.8;
+            gojoSound.play().catch(err => console.error(err));
+
+            // إظهار صورة غوجو مع الأنيميشن
+            gojoImg.style.opacity = "1";
+            gojoImg.classList.add("active");
+
+            // بعد 3 ثواني، ننتقل إلى فيديو غوجو
+            setTimeout(() => {
+                gojoImg.classList.remove("active");
+                gojoImg.style.opacity = "0";
+
+                // تشغيل فيديو غوجو
+                gojoVideo.src = "./asset/XiaoYing_Video_1752972205146_HD.mp4";
+                gojoVideo.classList.add("active");
+                gojoVideo.play().catch(err => console.error(err));
+
+                // عند انتهاء فيديو غوجو
+                gojoVideo.onended = function() {
+                    this.onended = null;
+                    gojoVideo.classList.remove("active");
+                    showFinalPhase();
+                };
+            }, 3000);
+        }
+
+        // إنشاء فقاعات متطايرة
+        function createBubble() {
+            const bubble = document.createElement("div");
+            bubble.classList.add("bubble");
+
+            // حجم عشوائي للفقاعة
+            const size = Math.random() * 40 + 20;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+
+            // موقع البداية (أسفل الشاشة)
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.bottom = `-${size}px`;
+
+            // توهج خفيف
+            bubble.style.boxShadow = `0 0 ${size/3}px rgba(255, 255, 255, 0.5)`;
+
+            // سرعة واتجاه
+            const duration = Math.random() * 8 + 8; // 8-16 ثانية
+            const xOffset = (Math.random() - 0.5) * 200; // -100px إلى 100px
+            bubble.style.setProperty("--x-offset", `${xOffset}px`);
+            bubble.style.animationDuration = `${duration}s`;
+
+            // لون عشوائي
+            const colors = [
+                "rgba(255, 255, 255, 0.3)",
+                "rgba(255, 200, 200, 0.4)",
+                "rgba(200, 255, 200, 0.4)",
+                "rgba(200, 200, 255, 0.4)"
+            ];
+            bubble.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            document.getElementById("container").appendChild(bubble);
+
+            // إزالة الفقاعة بعد انتهاء الأنيميشن
+            bubble.addEventListener("animationend", () => {
+                bubble.remove();
+            });
+        }
+
+        // بدء توليد الفقاعات
+        function startBubbles() {
+            // توليد فقاعة كل 500 مللي ثانية
+            bubblesInterval = setInterval(createBubble, 500);
+
+            // توليد 10 فقاعات فوراً
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createBubble, i * 100);
+            }
+        }
+
+        // 2. المرحلة النهائية بعد غوجو
+        function showFinalPhase() {
+            // إظهار الفيديو النهائي
+            finalPhaseVideo.src = "./asset/Mango AI Work_20250719-020711.mp4";
+            finalPhaseVideo.classList.add("active");
+            finalPhaseVideo.play().catch(err => console.error(err));
+
+            // عند انتهاء الفيديو النهائي
+            finalPhaseVideo.onended = function() {
+                this.onended = null;
+                finalPhaseVideo.classList.remove("active");
+
+                // إظهار الصورة النهائية
+                finalImage.classList.add("active");
+                finalGlow.classList.add("active");
+
+                // تشغيل الغنية النهائية
+                finalSong.src = "./asset/Karim Nour - Happy Birthday (Official Music Video) أغنية عيد ميلاد.mp3";
+                finalSong.volume = 0.7;
+                finalSong.play().catch(err => console.error(err));
+
+                // إظهار الائتمانات
+                credits.style.opacity = "1";
+                credits.textContent = "Final Sequence | Happy birthday JoJo ❤️";
+
+                // بدء توليد الفقاعات
+                startBubbles();
+            };
+        }
+    </script>
+</body>
+
+</html>
